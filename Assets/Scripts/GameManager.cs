@@ -98,20 +98,20 @@ public class GameManager : MonoBehaviour
             if(square.usedCoords.Count == 0)
                 goto restart;
             square.usedCoords.Add(square.GetOccupiedPosition());
-            // foreach (var sq in FindObjectsOfType<Square>())
-            //     if(IsOverlapping(sq.usedCoords,square.usedCoords)) goto restart;
+            foreach (var sq in FindObjectsOfType<Square>())
+                if(IsOverlapping(sq.usedCoords,square.usedCoords)) goto restart;
         }
         else
         {
-            restart:
+            restart1:
             square.usedCoords = new List<Vector2Int>();
             GridType type = UnityTools.RandomEnumValue<GridType>();
             square.UseGridOfType(type);
             if(square.usedCoords.Count == 0)
-                goto restart;
+                goto restart1;
             square.usedCoords.Add(square.GetOccupiedPosition());
-            // foreach (var sq in FindObjectsOfType<Square>())
-            //     if(IsOverlapping(sq.usedCoords,square.usedCoords)) goto restart;
+            foreach (var sq in FindObjectsOfType<Square>())
+                if(IsOverlapping(sq.usedCoords,square.usedCoords)) goto restart1;
         }
         square.HasSet = true;
         goto resetIfSet;
