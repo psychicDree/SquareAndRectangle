@@ -18,8 +18,8 @@ public static class UnityTools
 	}
 	public static T RandomEnumValue<T> ()
 	{
-		Random _R = new Random();
+		Random r = new Random();
 		var v = Enum.GetValues (typeof (T));
-		return (T) v.GetValue (_R.Next(v.Length));
+		return (T) v.GetValue (r.Next(v.Length));
 	}
 }

@@ -19,13 +19,16 @@ public class SquareSelectableCoords
 }
 public class Square : MonoBehaviour
 {
-	private int _value;
+	public int _value;
 	private TMP_Text _text;
 	private SpriteRenderer _renderer;
-	private Vector2Int _occupiedPos;
+	public Vector2Int _occupiedPos;
 	public SquareSelectableCoords _selectableCoords;
 	public List<Vector2Int> usedCoords;
 	public bool HasSet;
+	public Square linkedSquare;
+	public bool IsMaster { get; set; }
+
 	public void Init()
 	{
 		_text = transform.Find("Value").GetComponent<TMP_Text>();
@@ -46,6 +49,11 @@ public class Square : MonoBehaviour
 		_text.text = value.ToString();
 	}
 
+	public void SetSolutionColor(Color color)
+	{
+		if(!IsMaster)
+			_renderer.color = color;
+	}
 	public int GetSquareValue()
 	{
 		return _value;
@@ -55,6 +63,10 @@ public class Square : MonoBehaviour
 		return _occupiedPos;
 	}
 
+	public void ResetSelectedData()
+	{
+		_selectableCoords = new SquareSelectableCoords();
+	}
 	public void UseGridOfType(GridType type)
 	{
 		usedCoords = GetGrid(type);
