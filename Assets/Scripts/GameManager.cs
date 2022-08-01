@@ -72,6 +72,7 @@ public class GameManager : MonoBehaviour
             yield return StartCoroutine(SetUpSquare(square));
             StopCoroutine(SetUpSquare(square));
         }
+        yield return RemoveSquareIfHasSet();
         SetupUI();
     }
     private Vector3 CalculatePositionFromCoords(Vector2Int coords)
@@ -137,28 +138,28 @@ public class GameManager : MonoBehaviour
         for (int i = 1; i < value; i++)
         {
             Vector2Int leftAdj = new Vector2Int(sq.GetOccupiedPosition().x + i, sq.GetOccupiedPosition().y);
-            if(!GetSquare(leftAdj).HasSet)
+            // if(!GetSquare(leftAdj).HasSet)
                 if (CheckIfCoordinatesAreOnBoard(new Vector2Int(sq.GetOccupiedPosition().x+ (value - 1), sq.GetOccupiedPosition().y))) sq._selectableCoords.LeftCoords.Add(leftAdj);
         }
 
         for (int i = 1; i < value; i++)
         {
             Vector2Int rightAdj = new Vector2Int(sq.GetOccupiedPosition().x - i, sq.GetOccupiedPosition().y);
-            if(!GetSquare(rightAdj).HasSet)
+            // if(!GetSquare(rightAdj).HasSet)
                 if (CheckIfCoordinatesAreOnBoard(new Vector2Int(sq.GetOccupiedPosition().x- (value - 1), sq.GetOccupiedPosition().y))) sq._selectableCoords.RightCoords.Add(rightAdj);
         }
 
         for (int i = 1; i < value; i++)
         {
             Vector2Int upAdj = new Vector2Int(sq.GetOccupiedPosition().x, sq.GetOccupiedPosition().y + i);
-            if(!GetSquare(upAdj).HasSet)
+            // if(!GetSquare(upAdj).HasSet)
                 if (CheckIfCoordinatesAreOnBoard(new Vector2Int(sq.GetOccupiedPosition().x, sq.GetOccupiedPosition().y + (value - 1)))) sq._selectableCoords.UpCoords.Add(upAdj);
         }
 
         for (int i = 1; i < value; i++)
         {
             Vector2Int downAdj = new Vector2Int(sq.GetOccupiedPosition().x, sq.GetOccupiedPosition().y - i);
-            if(!GetSquare(downAdj).HasSet)
+            // if(!GetSquare(downAdj).HasSet)
                 if (CheckIfCoordinatesAreOnBoard(new Vector2Int(sq.GetOccupiedPosition().x, sq.GetOccupiedPosition().y - (value - 1)))) sq._selectableCoords.DownCoords.Add(downAdj);
         }   
     }
@@ -167,68 +168,70 @@ public class GameManager : MonoBehaviour
         Vector2Int leftForUpAdj = new Vector2Int(square.GetOccupiedPosition().x + 1, square.GetOccupiedPosition().y);
         Vector2Int leftUpAdj = new Vector2Int(square.GetOccupiedPosition().x + 1, square.GetOccupiedPosition().y + 1); 
         Vector2Int upForLeftAdj = new Vector2Int(square.GetOccupiedPosition().x, square.GetOccupiedPosition().y + 1);
-        if (!GetSquare(leftForUpAdj).HasSet && !GetSquare(leftUpAdj).HasSet && !GetSquare(leftUpAdj).HasSet)
+        if (CheckIfCoordinatesAreOnBoard(new Vector2Int(square.GetOccupiedPosition().x + 1, square.GetOccupiedPosition().y)) && 
+            CheckIfCoordinatesAreOnBoard(new Vector2Int(square.GetOccupiedPosition().x + 1, square.GetOccupiedPosition().y + 1)) &&
+            CheckIfCoordinatesAreOnBoard(new Vector2Int(square.GetOccupiedPosition().x + 1, square.GetOccupiedPosition().y)))
         {
-            if (CheckIfCoordinatesAreOnBoard(new Vector2Int(square.GetOccupiedPosition().x + 1, square.GetOccupiedPosition().y)) && 
-                CheckIfCoordinatesAreOnBoard(new Vector2Int(square.GetOccupiedPosition().x + 1, square.GetOccupiedPosition().y + 1)) &&
-                CheckIfCoordinatesAreOnBoard(new Vector2Int(square.GetOccupiedPosition().x + 1, square.GetOccupiedPosition().y)))
-            {
-                square._selectableCoords.UpLeftCornerCoords.Add(leftForUpAdj);
-                square._selectableCoords.UpLeftCornerCoords.Add(leftUpAdj);
-                square._selectableCoords.UpLeftCornerCoords.Add(upForLeftAdj);
-            }
+            square._selectableCoords.UpLeftCornerCoords.Add(leftForUpAdj);
+            square._selectableCoords.UpLeftCornerCoords.Add(leftUpAdj);
+            square._selectableCoords.UpLeftCornerCoords.Add(upForLeftAdj);
         }
             
         Vector2Int rightAdj = new Vector2Int(square.GetOccupiedPosition().x - 1, square.GetOccupiedPosition().y);
         Vector2Int rightUpAdj = new Vector2Int(square.GetOccupiedPosition().x - 1, square.GetOccupiedPosition().y + 1);
         Vector2Int upForRightAdj = new Vector2Int(square.GetOccupiedPosition().x, square.GetOccupiedPosition().y + 1);
-        if (!GetSquare(rightAdj).HasSet && !GetSquare(rightUpAdj).HasSet && !GetSquare(upForRightAdj).HasSet)
-        {
-            if (CheckIfCoordinatesAreOnBoard(new Vector2Int(square.GetOccupiedPosition().x - 1, square.GetOccupiedPosition().y)) &&
-                CheckIfCoordinatesAreOnBoard(new Vector2Int(square.GetOccupiedPosition().x - 1, square.GetOccupiedPosition().y + 1)) &&
-                CheckIfCoordinatesAreOnBoard(new Vector2Int(square.GetOccupiedPosition().x, square.GetOccupiedPosition().y + 1)))
-            {
-                square._selectableCoords.UpRightCornerCoords.Add(rightAdj);
-                square._selectableCoords.UpRightCornerCoords.Add(rightUpAdj);
-                square._selectableCoords.UpRightCornerCoords.Add(upForRightAdj);
-            }
-        }
         
+        if (CheckIfCoordinatesAreOnBoard(new Vector2Int(square.GetOccupiedPosition().x - 1, square.GetOccupiedPosition().y)) &&
+            CheckIfCoordinatesAreOnBoard(new Vector2Int(square.GetOccupiedPosition().x - 1, square.GetOccupiedPosition().y + 1)) &&
+            CheckIfCoordinatesAreOnBoard(new Vector2Int(square.GetOccupiedPosition().x, square.GetOccupiedPosition().y + 1)))
+        {
+            square._selectableCoords.UpRightCornerCoords.Add(rightAdj);
+            square._selectableCoords.UpRightCornerCoords.Add(rightUpAdj);
+            square._selectableCoords.UpRightCornerCoords.Add(upForRightAdj);
+        }
         Vector2Int downLeftAdj = new Vector2Int(square.GetOccupiedPosition().x + 1, square.GetOccupiedPosition().y);
         Vector2Int leftDownAdj = new Vector2Int(square.GetOccupiedPosition().x + 1, square.GetOccupiedPosition().y - 1); 
         Vector2Int downAdj1 = new Vector2Int(square.GetOccupiedPosition().x, square.GetOccupiedPosition().y - 1);
-        if (!GetSquare(downLeftAdj).HasSet && !GetSquare(leftDownAdj).HasSet && !GetSquare(downAdj1).HasSet)
+        if (CheckIfCoordinatesAreOnBoard(new Vector2Int(square.GetOccupiedPosition().x + 1,
+                square.GetOccupiedPosition().y)) &&
+            CheckIfCoordinatesAreOnBoard(new Vector2Int(square.GetOccupiedPosition().x + 1,
+                square.GetOccupiedPosition().y - 1)) &&
+            CheckIfCoordinatesAreOnBoard(new Vector2Int(square.GetOccupiedPosition().x,
+                square.GetOccupiedPosition().y - 1)))
         {
-            if (CheckIfCoordinatesAreOnBoard(new Vector2Int(square.GetOccupiedPosition().x + 1,
-                    square.GetOccupiedPosition().y)) &&
-                CheckIfCoordinatesAreOnBoard(new Vector2Int(square.GetOccupiedPosition().x + 1,
-                    square.GetOccupiedPosition().y - 1)) &&
-                CheckIfCoordinatesAreOnBoard(new Vector2Int(square.GetOccupiedPosition().x,
-                    square.GetOccupiedPosition().y - 1)))
-            {
-                square._selectableCoords.DownLeftCornerCoords.Add(downLeftAdj);
-                square._selectableCoords.DownLeftCornerCoords.Add(leftDownAdj);
-                square._selectableCoords.DownLeftCornerCoords.Add(downAdj1);
-            }
+            square._selectableCoords.DownLeftCornerCoords.Add(downLeftAdj);
+            square._selectableCoords.DownLeftCornerCoords.Add(leftDownAdj);
+            square._selectableCoords.DownLeftCornerCoords.Add(downAdj1);
         }
         
         Vector2Int right = new Vector2Int(square.GetOccupiedPosition().x - 1, square.GetOccupiedPosition().y);
         Vector2Int rightDownAdj = new Vector2Int(square.GetOccupiedPosition().x - 1, square.GetOccupiedPosition().y - 1);
         Vector2Int downAdj2 = new Vector2Int(square.GetOccupiedPosition().x, square.GetOccupiedPosition().y - 1);
-        if (!GetSquare(right).HasSet && !GetSquare(rightDownAdj).HasSet && !GetSquare(downAdj2).HasSet)
+        if (CheckIfCoordinatesAreOnBoard(new Vector2Int(square.GetOccupiedPosition().x - 1,
+                square.GetOccupiedPosition().y)) &&
+            CheckIfCoordinatesAreOnBoard(new Vector2Int(square.GetOccupiedPosition().x - 1,
+                square.GetOccupiedPosition().y - 1)) &&
+            CheckIfCoordinatesAreOnBoard(new Vector2Int(square.GetOccupiedPosition().x,
+                square.GetOccupiedPosition().y - 1)))
         {
-            if (CheckIfCoordinatesAreOnBoard(new Vector2Int(square.GetOccupiedPosition().x - 1,
-                    square.GetOccupiedPosition().y)) &&
-                CheckIfCoordinatesAreOnBoard(new Vector2Int(square.GetOccupiedPosition().x - 1,
-                    square.GetOccupiedPosition().y - 1)) &&
-                CheckIfCoordinatesAreOnBoard(new Vector2Int(square.GetOccupiedPosition().x,
-                    square.GetOccupiedPosition().y - 1)))
+            square._selectableCoords.DownRightCornerCoords.Add(right);
+            square._selectableCoords.DownRightCornerCoords.Add(rightDownAdj);
+            square._selectableCoords.DownRightCornerCoords.Add(downAdj2);
+        }
+    }
+
+    IEnumerator RemoveSquareIfHasSet()
+    {
+        Square[] sq = FindObjectsOfType<Square>();
+        foreach (var s in sq)
+        {
+            foreach (var coord in s.usedCoords)
             {
-                square._selectableCoords.DownRightCornerCoords.Add(right);
-                square._selectableCoords.DownRightCornerCoords.Add(rightDownAdj);
-                square._selectableCoords.DownRightCornerCoords.Add(downAdj2);
+                if(GetSquare(coord).HasSet)
+                {
+                    yield return StartCoroutine(SetUpSquare(GetSquare(coord)));
+                }
             }
         }
     }
-    
 }

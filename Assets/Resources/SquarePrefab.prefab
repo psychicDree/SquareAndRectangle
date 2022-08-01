@@ -218,6 +218,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67815c60782404d41b4deded7ac4093a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _value: 0
+  _occupiedPos: {x: 0, y: 0}
   _selectableCoords:
     LeftCoords: []
     RightCoords: []
@@ -228,6 +230,8 @@ MonoBehaviour:
     DownLeftCornerCoords: []
     DownRightCornerCoords: []
   usedCoords: []
+  HasSet: 0
+  linkedSquare: {fileID: 0}
 --- !u!1 &9119475233753470507
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,6 +244,7 @@ GameObject:
   - component: {fileID: 9119475233753470501}
   - component: {fileID: 9119475233753470502}
   - component: {fileID: 1463188166081566209}
+  - component: {fileID: 3104159325748552598}
   m_Layer: 0
   m_Name: SquareSprite
   m_TagString: Untagged
@@ -361,3 +366,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &3104159325748552598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9119475233753470507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de34d3525a935de43af0b3cf387a53fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

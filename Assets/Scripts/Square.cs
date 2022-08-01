@@ -65,6 +65,9 @@ public class Square : MonoBehaviour
 
 	public void ResetSelectedData()
 	{
+		_value = 0;
+		_renderer.color = Color.green;
+		_text.text = "";
 		_selectableCoords = new SquareSelectableCoords();
 	}
 	public void UseGridOfType(GridType type)
