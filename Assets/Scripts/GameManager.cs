@@ -225,7 +225,7 @@ public class GameManager : MonoBehaviour
         Square[] sq = FindObjectsOfType<Square>();
         foreach (var s in sq)
         {
-            foreach (var coord in s.usedCoords)
+            foreach (var coord in s.usedCoords)   
             {
                 if(GetSquare(coord).HasSet)
                 {
